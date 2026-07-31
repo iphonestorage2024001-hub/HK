@@ -888,3 +888,115 @@ font-size:18px;
 }
 
 }
+
+/* =====================================
+
+Memory Timeline
+
+===================================== */
+
+.timeline{
+
+max-width:1200px;
+
+margin:auto;
+
+display:flex;
+
+flex-direction:column;
+
+gap:80px;
+
+}
+
+.memory{
+
+display:flex;
+
+align-items:center;
+
+gap:50px;
+
+}
+
+.memory.right{
+
+flex-direction:row-reverse;
+
+}
+
+.memory img{
+
+width:420px;
+
+height:520px;
+
+object-fit:cover;
+
+border-radius:25px;
+
+box-shadow:0 20px 45px rgba(0,0,0,.35);
+
+transition:.4s;
+
+}
+
+.memory img:hover{
+
+transform:scale(1.03);
+
+}
+
+.memory-text{
+
+flex:1;
+
+}
+
+.memory-text h3{
+
+font-size:36px;
+
+margin-bottom:20px;
+
+font-family:'Playfair Display',serif;
+
+color:#ff7eb3;
+
+}
+
+.memory-text p{
+
+font-size:22px;
+
+line-height:1.8;
+
+color:#f4f4f4;
+
+}
+
+@media(max-width:900px){
+
+.memory,
+
+.memory.right{
+
+flex-direction:column;
+
+}
+
+.memory img{
+
+width:100%;
+
+height:auto;
+
+}
+
+.memory-text{
+
+text-align:center;
+
+}
+
+}
