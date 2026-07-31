@@ -8,25 +8,41 @@
 
 // Loader
 
-window.addEventListener("load", () => {
+const loader=document.getElementById("loader");
 
-    const loader = document.getElementById("loader");
+const music=new Audio("assets/music/Lover.mp3");
 
-    setTimeout(() => {
+music.loop=true;
 
-        loader.style.opacity = "0";
+let opened=false;
 
-        loader.style.transition = "1.2s";
+function openLetter(){
 
-        setTimeout(() => {
+if(opened)return;
 
-            loader.style.display = "none";
+opened=true;
 
-        },1200);
+music.play().catch(()=>{});
 
-    },2200);
+loader.style.opacity="0";
 
-});
+loader.style.transition="1.2s";
+
+setTimeout(()=>{
+
+loader.style.display="none";
+
+},1200);
+
+document.removeEventListener("click",openLetter);
+
+document.removeEventListener("touchstart",openLetter);
+
+}
+
+document.addEventListener("click",openLetter);
+
+document.addEventListener("touchstart",openLetter);
 
 /* ==========================================
 
