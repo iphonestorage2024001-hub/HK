@@ -185,3 +185,111 @@ async function loadImages(){
 }
 
 loadImages();
+
+/* ==========================================
+
+   LIGHTBOX
+
+========================================== */
+
+const lightbox = document.createElement("div");
+
+lightbox.id = "lightbox";
+
+document.body.appendChild(lightbox);
+
+lightbox.addEventListener("click",()=>{
+
+    lightbox.classList.remove("active");
+
+});
+
+/* ==========================================
+
+   BUILD GALLERY
+
+========================================== */
+
+function buildGallery(){
+
+    galleryContainer.innerHTML="";
+
+    allImages.forEach(file=>{
+
+        const img=document.createElement("img");
+
+        img.src=file.download_url;
+
+        img.alt=file.name;
+
+        img.loading="lazy";
+
+        img.addEventListener("click",()=>{
+
+            lightbox.classList.add("active");
+
+            lightbox.innerHTML=`<img src="${file.download_url}">`;
+
+        });
+
+        galleryContainer.appendChild(img);
+
+    });
+
+}
+
+/* ==========================================
+
+   HERO SLIDESHOW
+
+========================================== */
+
+let heroIndex=0;
+
+function startHero(){
+
+    if(allImages.length===0) return;
+
+    hero.style.backgroundImage=`
+
+    linear-gradient(
+
+    rgba(7,17,31,.55),
+
+    rgba(7,17,31,.75)
+
+    ),
+
+    url('${allImages[0].download_url}')
+
+    `;
+
+    setInterval(()=>{
+
+        heroIndex++;
+
+        if(heroIndex>=allImages.length){
+
+            heroIndex=0;
+
+        }
+
+        hero.style.backgroundImage=`
+
+        linear-gradient(
+
+        rgba(7,17,31,.55),
+
+        rgba(7,17,31,.75)
+
+        ),
+
+        url('${allImages[heroIndex].download_url}')
+
+        `;
+
+        hero.style.transition="1.4s ease";
+
+    },5000);
+
+}
