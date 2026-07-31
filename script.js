@@ -36,7 +36,7 @@ Music
 
 const musicBtn = document.getElementById("musicToggle");
 
-const music = new Audio("assets/music/lover.mp3");
+const music = new Audio("assets/music/Taylor_Swift_-_Lover_(mp3.pm).mp3");
 
 music.loop = true;
 
