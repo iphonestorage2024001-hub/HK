@@ -401,3 +401,67 @@ confetti.remove();
 },{threshold:.8});
 
 endingObserver.observe(ending);
+
+/* ==========================================
+
+AUTO LOAD GITHUB IMAGES
+
+========================================== */
+
+async function loadGallery(){
+
+const gallery=document.getElementById("galleryContainer");
+
+gallery.innerHTML="";
+
+const owner="iphonestorage2024001-hub";
+
+const repo="HK";
+
+const folder="assets/images";
+
+const url=`https://api.github.com/repos/${owner}/${repo}/contents/${folder}`;
+
+try{
+
+const response=await fetch(url);
+
+const files=await response.json();
+
+files.forEach(file=>{
+
+const name=file.name.toLowerCase();
+
+if(
+
+name.endsWith(".jpg") ||
+
+name.endsWith(".jpeg") ||
+
+name.endsWith(".png") ||
+
+name.endsWith(".webp")
+
+){
+
+const img=document.createElement("img");
+
+img.src=file.download_url;
+
+gallery.appendChild(img);
+
+}
+
+});
+
+}
+
+catch(error){
+
+console.log(error);
+
+}
+
+}
+
+loadGallery();
