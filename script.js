@@ -10,9 +10,9 @@
 
 const loader=document.getElementById("loader");
 
-const music=new Audio("assets/music/Lover.mp3");
+const music = new Audio("assets/music/Taylor_Swift_-_Lover_(mp3.pm).mp3");
 
-music.loop=true;
+music.loop = true;
 
 let opened=false;
 
@@ -52,35 +52,25 @@ Music
 
 const musicBtn = document.getElementById("musicToggle");
 
-const music = new Audio("assets/music/Taylor_Swift_-_Lover_(mp3.pm).mp3");
+musicBtn.addEventListener("click", () => {
 
-music.loop = true;
-
-let isPlaying = false;
-
-musicBtn.addEventListener("click",()=>{
-
-    if(!isPlaying){
+    if (music.paused) {
 
         music.play();
 
-        musicBtn.innerHTML="⏸";
+        musicBtn.innerHTML = "⏸";
 
-        musicBtn.style.transform="rotate(360deg)";
+        musicBtn.style.transform = "rotate(360deg)";
 
-    }
-
-    else{
+    } else {
 
         music.pause();
 
-        musicBtn.innerHTML="🎵";
+        musicBtn.innerHTML = "🎵";
 
-        musicBtn.style.transform="rotate(0deg)";
+        musicBtn.style.transform = "rotate(0deg)";
 
     }
-
-    isPlaying=!isPlaying;
 
 });
 
