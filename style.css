@@ -1,0 +1,499 @@
+/* ===========================
+
+   Google Fonts
+
+=========================== */
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    font-family:'Poppins',sans-serif;
+
+    background:#07111f;
+
+    color:white;
+
+    overflow-x:hidden;
+
+}
+
+/* ===========================
+
+   Loader
+
+=========================== */
+
+#loader{
+
+    position:fixed;
+
+    width:100%;
+
+    height:100vh;
+
+    background:#07111f;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:999;
+
+}
+
+#loader h1{
+
+    font-family:'Playfair Display',serif;
+
+    font-size:60px;
+
+    color:#ff4d8d;
+
+}
+
+#loader p{
+
+    margin-top:15px;
+
+    opacity:.8;
+
+}
+
+/* ===========================
+
+Hero
+
+=========================== */
+
+.hero{
+
+    height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    position:relative;
+
+    background:linear-gradient(135deg,#09172b,#182848,#4b6cb7);
+
+}
+
+.overlay{
+
+    position:absolute;
+
+    width:100%;
+
+    height:100%;
+
+    background:rgba(0,0,0,.45);
+
+}
+
+.hero-content{
+
+    position:relative;
+
+    z-index:2;
+
+    width:90%;
+
+    max-width:800px;
+
+}
+
+.hero h1{
+
+    font-size:65px;
+
+    font-family:'Playfair Display',serif;
+
+}
+
+.hero h2{
+
+    color:#ff7eb3;
+
+    margin:20px 0;
+
+}
+
+.hero p{
+
+    font-size:22px;
+
+    line-height:1.7;
+
+}
+
+.start-btn{
+
+    display:inline-block;
+
+    margin-top:35px;
+
+    padding:18px 35px;
+
+    background:#ff4d8d;
+
+    color:white;
+
+    border-radius:40px;
+
+    text-decoration:none;
+
+    transition:.3s;
+
+}
+
+.start-btn:hover{
+
+    transform:scale(1.08);
+
+}
+
+/* ===========================
+
+Sections
+
+=========================== */
+
+section{
+
+    padding:100px 8%;
+
+}
+
+section h2{
+
+    text-align:center;
+
+    font-size:42px;
+
+    margin-bottom:60px;
+
+    font-family:'Playfair Display';
+
+}
+
+/* ===========================
+
+Gallery
+
+=========================== */
+
+.gallery{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+    gap:25px;
+
+}
+
+.gallery img{
+
+    width:100%;
+
+    height:350px;
+
+    object-fit:cover;
+
+    border-radius:20px;
+
+    transition:.4s;
+
+    cursor:pointer;
+
+    box-shadow:0 20px 40px rgba(0,0,0,.3);
+
+}
+
+.gallery img:hover{
+
+    transform:translateY(-10px) scale(1.03);
+
+}
+
+/* ===========================
+
+Cards
+
+=========================== */
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+    gap:25px;
+
+}
+
+.card{
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(15px);
+
+    padding:40px;
+
+    border-radius:25px;
+
+    text-align:center;
+
+    font-size:22px;
+
+    transition:.4s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-12px);
+
+}
+
+/* ===========================
+
+Bubuzilla
+
+=========================== */
+
+.bubu{
+
+    text-align:center;
+
+}
+
+.terminal{
+
+    background:black;
+
+    color:#22ff88;
+
+    padding:40px;
+
+    border-radius:20px;
+
+    max-width:700px;
+
+    margin:auto;
+
+    text-align:left;
+
+    font-family:monospace;
+
+    line-height:2;
+
+}
+
+.bubu button{
+
+    margin-top:40px;
+
+    padding:18px 30px;
+
+    background:#ff4d8d;
+
+    border:none;
+
+    color:white;
+
+    border-radius:50px;
+
+    cursor:pointer;
+
+}
+
+/* ===========================
+
+Letter
+
+=========================== */
+
+.letter{
+
+    max-width:900px;
+
+    margin:auto;
+
+    line-height:2;
+
+    font-size:21px;
+
+}
+
+.letter p{
+
+    margin:25px 0;
+
+}
+
+/* ===========================
+
+Taylor
+
+=========================== */
+
+.taylor{
+
+    text-align:center;
+
+    background:linear-gradient(135deg,#d8b4ff,#8b5cf6);
+
+}
+
+.taylor p{
+
+    font-size:24px;
+
+    margin-top:20px;
+
+}
+
+/* ===========================
+
+End
+
+=========================== */
+
+.end{
+
+    text-align:center;
+
+    min-height:100vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+}
+
+.end h1{
+
+    font-size:60px;
+
+    font-family:'Playfair Display';
+
+}
+
+.end h2{
+
+    color:#ff4d8d;
+
+}
+
+.end h3{
+
+    margin-top:40px;
+
+}
+
+/* ===========================
+
+Music Button
+
+=========================== */
+
+.music-button{
+
+    position:fixed;
+
+    right:25px;
+
+    bottom:25px;
+
+    z-index:100;
+
+}
+
+.music-button button{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:50%;
+
+    border:none;
+
+    background:#ff4d8d;
+
+    color:white;
+
+    font-size:25px;
+
+    cursor:pointer;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.4);
+
+}
+
+/* ===========================
+
+Responsive
+
+=========================== */
+
+@media(max-width:768px){
+
+.hero h1{
+
+font-size:42px;
+
+}
+
+.hero p{
+
+font-size:18px;
+
+}
+
+section h2{
+
+font-size:34px;
+
+}
+
+.gallery img{
+
+height:280px;
+
+}
+
+.end h1{
+
+font-size:42px;
+
+}
+
+}
