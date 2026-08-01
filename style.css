@@ -1,1077 +1,244 @@
-/* ===================================================
-
+/* ==========================================
    Happy Girlfriend Day ❤️
+   Version 3
+========================================== */
 
-   Style.css - Part 1
+const loader = document.getElementById("loader");
+const hero = document.querySelector(".hero");
+const galleryContainer = document.getElementById("galleryContainer");
+const musicBtn = document.getElementById("musicToggle");
 
-   By Kshiteej
+/* ==========================================
+   MUSIC
+========================================== */
 
-=================================================== */
+const music = new Audio("assets/music/Taylor_Swift_-_Lover_(mp3.pm).mp3");
 
-*{
+music.loop = true;
 
-    margin:0;
+let opened = false;
 
-    padding:0;
+loader.addEventListener("click", openWebsite);
+loader.addEventListener("touchstart", openWebsite);
 
-    box-sizing:border-box;
+function openWebsite() {
 
-}
+    if (opened) return;
 
-html{
+    opened = true;
 
-    scroll-behavior:smooth;
+    music.play().catch(() => {});
 
-}
+    musicBtn.innerHTML = "⏸";
 
-body{
+    loader.style.transition = "1s";
 
-    font-family:'Poppins',sans-serif;
+    loader.style.opacity = "0";
 
-    background:#07111f;
+    setTimeout(() => {
 
-    color:white;
+        loader.style.display = "none";
 
-    overflow-x:hidden;
-
-}
-
-/* Smooth Selection */
-
-::selection{
-
-    background:#ff4d8d;
-
-    color:white;
+    }, 1000);
 
 }
 
-/* Scrollbar */
+musicBtn.addEventListener("click", () => {
 
-::-webkit-scrollbar{
+    if (music.paused) {
 
-    width:10px;
+        music.play();
 
-}
+        musicBtn.innerHTML = "⏸";
 
-::-webkit-scrollbar-thumb{
+    } else {
 
-    background:#ff4d8d;
+        music.pause();
 
-    border-radius:20px;
+        musicBtn.innerHTML = "🎵";
 
-}
+    }
 
-::-webkit-scrollbar-track{
+});
 
-    background:#09172b;
+/* ==========================================
+   FLOATING HEARTS
+========================================== */
 
-}
+function createHeart() {
 
-/* ===================================================
+    const heart = document.createElement("div");
 
-Loader
+    heart.className = "heart";
 
-=================================================== */
+    heart.innerHTML = "❤️";
 
-#loader{
+    heart.style.left = Math.random() * 100 + "vw";
 
-    position:fixed;
+    heart.style.fontSize = (18 + Math.random() * 20) + "px";
 
-    inset:0;
+    document.body.appendChild(heart);
 
-    background:#07111f;
+    setTimeout(() => {
 
-    display:flex;
+        heart.remove();
 
-    justify-content:center;
-
-    align-items:center;
-
-    flex-direction:column;
-
-    z-index:99999;
+    }, 6000);
 
 }
 
-#loader h1{
+setInterval(createHeart, 500);
 
-    font-family:'Playfair Display',serif;
+/* ==========================================
+   GITHUB SETTINGS
+========================================== */
 
-    font-size:64px;
+const OWNER = "iphonestorage2024001-hub";
+const REPO = "HK";
 
-    color:#ff4d8d;
+const API =
+`https://api.github.com/repos/${OWNER}/${REPO}/contents/assets/images`;
 
-    margin-bottom:15px;
+let allImages = [];
 
-}
+/* ==========================================
 
-#loader p{
+   LOAD IMAGES FROM GITHUB
 
-    opacity:.75;
+========================================== */
 
-    letter-spacing:2px;
+async function loadImages() {
 
-}
+    try {
 
-/* ===================================================
+        const response = await fetch(API);
 
-Music Button
+        const files = await response.json();
 
-=================================================== */
+        allImages = files.filter(file => {
 
-.music-button{
+            return file.type === "file" &&
 
-    position:fixed;
+                /\.(jpg|jpeg|png|webp)$/i.test(file.name);
 
-    bottom:25px;
+        });
 
-    right:25px;
+        buildGallery();
 
-    z-index:999;
+        startHero();
 
-}
+    }
 
-.music-button button{
+    catch (err) {
 
-    width:65px;
+        console.error("GitHub Error:", err);
 
-    height:65px;
-
-    border-radius:50%;
-
-    border:none;
-
-    cursor:pointer;
-
-    font-size:24px;
-
-    background:#ff4d8d;
-
-    color:white;
-
-    box-shadow:
-
-    0 15px 35px rgba(255,77,141,.45);
-
-    transition:.35s;
+    }
 
 }
 
-.music-button button:hover{
+/* ==========================================
 
-    transform:scale(1.1);
+   BUILD GALLERY
+
+========================================== */
+
+const lightbox = document.createElement("div");
+
+lightbox.id = "lightbox";
+
+document.body.appendChild(lightbox);
+
+lightbox.onclick = () => {
+
+    lightbox.classList.remove("active");
+
+};
+
+function buildGallery() {
+
+    galleryContainer.innerHTML = "";
+
+    allImages.forEach(file => {
+
+        const img = document.createElement("img");
+
+        img.src = file.download_url;
+
+        img.alt = file.name;
+
+        img.loading = "lazy";
+
+        img.onclick = () => {
+
+            lightbox.classList.add("active");
+
+            lightbox.innerHTML =
+
+            `<img src="${file.download_url}">`;
+
+        };
+
+        galleryContainer.appendChild(img);
+
+    });
 
 }
 
-/* ===================================================
+/* ==========================================
 
-Hero
+   HERO SLIDESHOW
 
-=================================================== */
+========================================== */
 
-.hero{
+let heroIndex = 0;
 
-    position:relative;
+function startHero() {
 
-    width:100%;
+    if (allImages.length === 0) return;
 
-    height:100vh;
+    changeHero();
 
-    display:flex;
+    setInterval(() => {
 
-    justify-content:center;
+        heroIndex++;
 
-    align-items:center;
+        if (heroIndex >= allImages.length) {
 
-    text-align:center;
+            heroIndex = 0;
 
-    overflow:hidden;
+        }
 
-    background:
+        changeHero();
 
-    linear-gradient(
+    }, 5000);
 
-    rgba(7,17,31,.65),
+}
 
-    rgba(7,17,31,.80)
+function changeHero() {
+
+    hero.style.backgroundImage =
+
+    `linear-gradient(
+
+        rgba(7,17,31,.55),
+
+        rgba(7,17,31,.75)
 
     ),
 
-    url("assets/images/img1.jpg");
+    url('${allImages[heroIndex].download_url}')`;
 
-    background-size:cover;
-
-    background-position:center;
-
-    background-repeat:no-repeat;
-
-}
-
-.overlay{
-
-    position:absolute;
-
-    inset:0;
-
-    background:
-
-    radial-gradient(circle at top,
-
-    rgba(255,77,141,.20),
-
-    transparent 60%);
-
-}
-
-/* Glass Card */
-
-.hero-content{
-
-    position:relative;
-
-    z-index:10;
-
-    width:90%;
-
-    max-width:850px;
-
-    padding:55px;
-
-    border-radius:35px;
-
-    background:rgba(255,255,255,.08);
-
-    backdrop-filter:blur(18px);
-
-    border:1px solid rgba(255,255,255,.12);
-
-    box-shadow:
-
-    0 25px 60px rgba(0,0,0,.35);
-
-}
-
-/* Small Badge */
-
-.hero-tag{
-
-    display:inline-block;
-
-    padding:12px 22px;
-
-    border-radius:50px;
-
-    background:rgba(255,255,255,.10);
-
-    border:1px solid rgba(255,255,255,.12);
-
-    margin-bottom:25px;
-
-    font-size:15px;
-
-}
-
-/* Main Title */
-
-.hero h1{
-
-    font-size:72px;
-
-    line-height:1.1;
-
-    margin-bottom:15px;
-
-    font-family:'Playfair Display',serif;
-
-    text-shadow:
-
-    0 5px 25px rgba(0,0,0,.35);
-
-}
-
-.hero h2{
-
-    color:#ff7eb3;
-
-    font-size:34px;
-
-    margin-bottom:30px;
-
-    font-weight:400;
-
-}
-
-/* Main Text */
-
-.hero-message{
-
-    max-width:650px;
-
-    margin:auto;
-
-    line-height:2;
-
-    font-size:21px;
-
-    color:#f4f4f4;
-
-}
-
-/* Button */
-
-.start-btn{
-
-    display:inline-block;
-
-    margin-top:45px;
-
-    padding:18px 40px;
-
-    background:#ff4d8d;
-
-    color:white;
-
-    text-decoration:none;
-
-    border-radius:60px;
-
-    font-weight:600;
-
-    transition:.35s;
-
-    box-shadow:
-
-    0 15px 40px rgba(255,77,141,.40);
-
-}
-
-.start-btn:hover{
-
-    transform:translateY(-5px);
-
-    box-shadow:
-
-    0 20px 50px rgba(255,77,141,.55);
-
-}
-
-/* Scroll */
-
-.scroll-indicator{
-
-    position:absolute;
-
-    bottom:30px;
-
-    left:50%;
-
-    transform:translateX(-50%);
-
-    opacity:.75;
-
-    animation:bounce 2s infinite;
-
-}
-
-@keyframes bounce{
-
-0%,20%,50%,80%,100%{
-
-transform:translate(-50%,0);
-
-}
-
-40%{
-
-transform:translate(-50%,-12px);
-
-}
-
-60%{
-
-transform:translate(-50%,-6px);
-
-}
-
-}
-
-/* Generic Sections */
-
-section{
-
-    padding:100px 8%;
-
-}
-
-section h2{
-
-    text-align:center;
-
-    font-family:'Playfair Display',serif;
-
-    font-size:44px;
-
-    margin-bottom:60px;
-
-}
-
-/* Mobile */
-
-@media(max-width:768px){
-
-.hero{
-
-background-position:center;
-
-}
-
-.hero-content{
-
-padding:35px;
-
-}
-
-.hero h1{
-
-font-size:44px;
-
-}
-
-.hero h2{
-
-font-size:26px;
-
-}
-
-.hero-message{
-
-font-size:17px;
-
-line-height:1.8;
-
-}
-
-.start-btn{
-
-padding:15px 28px;
-
-}
-
-}
-/* ===================================================
-
-Gallery
-
-=================================================== */
-
-.gallery{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-
-    gap:25px;
-
-}
-
-.gallery img{
-
-    width:100%;
-
-    height:340px;
-
-    object-fit:cover;
-
-    border-radius:22px;
-
-    cursor:pointer;
-
-    transition:.45s;
-
-    box-shadow:0 20px 40px rgba(0,0,0,.35);
-
-}
-
-.gallery img:hover{
-
-    transform:translateY(-12px) scale(1.03);
-
-    box-shadow:0 30px 55px rgba(255,77,141,.25);
-
-}
-
-/* ===================================================
-
-About Cards
-
-=================================================== */
-
-.cards{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-
-    gap:25px;
-
-}
-
-.card{
-
-    background:rgba(255,255,255,.08);
-
-    backdrop-filter:blur(15px);
-
-    border:1px solid rgba(255,255,255,.12);
-
-    border-radius:25px;
-
-    padding:40px;
-
-    text-align:center;
-
-    font-size:22px;
-
-    transition:.35s;
-
-}
-
-.card:hover{
-
-    transform:translateY(-10px);
-
-    background:rgba(255,255,255,.12);
-
-}
-
-/* ===================================================
-
-Bubuzilla
-
-=================================================== */
-
-.bubu{
-
-    text-align:center;
-
-}
-
-.terminal{
-
-    background:#050505;
-
-    color:#29ff87;
-
-    padding:35px;
-
-    border-radius:20px;
-
-    max-width:700px;
-
-    margin:auto;
-
-    text-align:left;
-
-    font-family:monospace;
-
-    line-height:2;
-
-    box-shadow:0 20px 40px rgba(0,0,0,.4);
-
-}
-
-.terminal h1{
-
-    color:#7CFF9A;
-
-    margin-top:15px;
-
-}
-
-.bubu button{
-
-    margin-top:40px;
-
-    padding:18px 35px;
-
-    border:none;
-
-    border-radius:50px;
-
-    background:#ff4d8d;
-
-    color:white;
-
-    font-size:18px;
-
-    cursor:pointer;
-
-    transition:.3s;
-
-}
-
-.bubu button:hover{
-
-    transform:scale(1.05);
-
-}
-
-/* ===================================================
-
-Letter
-
-=================================================== */
-
-.letter{
-
-    max-width:900px;
-
-    margin:auto;
-
-    background:rgba(255,255,255,.05);
-
-    padding:60px;
-
-    border-radius:30px;
-
-    backdrop-filter:blur(15px);
-
-    line-height:2;
-
-    font-size:21px;
-
 }
 
-.letter p{
+/* ==========================================
 
-    margin-bottom:25px;
+   START EVERYTHING
 
-}
-
-/* ===================================================
-
-Taylor
-
-=================================================== */
-
-.taylor{
-
-    text-align:center;
-
-    border-radius:30px;
-
-    background:linear-gradient(135deg,#d8b4ff,#8b5cf6);
-
-    color:white;
-
-}
-
-.taylor p{
-
-    margin-top:25px;
-
-    font-size:24px;
-
-    max-width:700px;
-
-    margin-left:auto;
-
-    margin-right:auto;
-
-}
-
-/* ===================================================
-
-Ending
-
-=================================================== */
-
-.end{
-
-    min-height:100vh;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    text-align:center;
-
-}
-
-.end h1{
-
-    font-family:'Playfair Display',serif;
-
-    font-size:64px;
-
-}
-
-.end h2{
-
-    margin-top:20px;
-
-    color:#ff4d8d;
-
-}
-
-.end h3{
-
-    margin-top:40px;
-
-    font-weight:400;
-
-}
-
-/* ===================================================
-
-Floating Hearts
-
-=================================================== */
-
-.heart{
-
-    position:fixed;
-
-    bottom:-40px;
-
-    pointer-events:none;
-
-    animation:floatUp 6s linear forwards;
-
-    z-index:9999;
-
-}
-
-@keyframes floatUp{
-
-0%{
-
-transform:translateY(0);
-
-opacity:1;
-
-}
-
-100%{
-
-transform:translateY(-110vh);
-
-opacity:0;
-
-}
-
-}
-
-/* ===================================================
-
-Lightbox
-
-=================================================== */
-
-#lightbox{
-
-    position:fixed;
-
-    inset:0;
-
-    background:rgba(0,0,0,.92);
-
-    display:none;
-
-    justify-content:center;
-
-    align-items:center;
-
-    z-index:99999;
-
-}
-
-#lightbox.active{
-
-    display:flex;
-
-}
-
-#lightbox img{
-
-    max-width:90%;
-
-    max-height:90%;
-
-    border-radius:20px;
-
-    box-shadow:0 25px 60px rgba(0,0,0,.5);
-
-}
-
-/* ===================================================
-
-Scroll Animation
-
-=================================================== */
-
-.hidden{
-
-    opacity:0;
-
-    transform:translateY(60px);
-
-    transition:1s;
-
-}
-
-.show{
-
-    opacity:1;
-
-    transform:translateY(0);
-
-}
-
-/* ===================================================
-
-Responsive
-
-=================================================== */
-
-@media(max-width:768px){
-
-.gallery{
-
-grid-template-columns:1fr;
-
-}
-
-.gallery img{
-
-height:280px;
-
-}
-
-.card{
-
-padding:30px;
-
-font-size:18px;
-
-}
-
-.letter{
-
-padding:35px;
+========================================== */
 
-font-size:18px;
+window.addEventListener("load", () => {
 
-}
-
-.end h1{
-
-font-size:42px;
-
-}
-
-.end h2{
-
-font-size:28px;
-
-}
-
-.end h3{
-
-font-size:18px;
-
-}
-
-}
-
-/* =====================================
-
-Memory Timeline
-
-===================================== */
-
-.timeline{
-
-max-width:1200px;
-
-margin:auto;
-
-display:flex;
-
-flex-direction:column;
-
-gap:80px;
-
-}
-
-.memory{
-
-display:flex;
-
-align-items:center;
-
-gap:50px;
-
-}
-
-.memory.right{
-
-flex-direction:row-reverse;
-
-}
-
-.memory img{
-
-width:420px;
-
-height:520px;
-
-object-fit:cover;
-
-border-radius:25px;
-
-box-shadow:0 20px 45px rgba(0,0,0,.35);
-
-transition:.4s;
-
-}
-
-.memory img:hover{
-
-transform:scale(1.03);
-
-}
-
-.memory-text{
-
-flex:1;
-
-}
-
-.memory-text h3{
-
-font-size:36px;
-
-margin-bottom:20px;
-
-font-family:'Playfair Display',serif;
-
-color:#ff7eb3;
-
-}
-
-.memory-text p{
-
-font-size:22px;
-
-line-height:1.8;
+    loadImages();
 
-color:#f4f4f4;
-
-}
-
-@media(max-width:900px){
-
-.memory,
-
-.memory.right{
-
-flex-direction:column;
-
-}
-
-.memory img{
-
-width:100%;
-
-height:auto;
-
-}
-
-.memory-text{
-
-text-align:center;
-
-}
-
-}
-/* ===========================
-
-LOVE LETTER LOADER
-
-=========================== */
-
-.loader-card{
-
-background:rgba(255,255,255,.08);
-
-backdrop-filter:blur(18px);
-
-padding:45px;
-
-border-radius:30px;
-
-text-align:center;
-
-border:1px solid rgba(255,255,255,.12);
-
-box-shadow:0 20px 50px rgba(0,0,0,.4);
-
-animation:pulse 2s infinite;
-
-}
-
-.loader-card h1{
-
-font-size:70px;
-
-margin-bottom:20px;
-
-}
-
-.loader-card h2{
-
-font-family:'Playfair Display',serif;
-
-font-size:42px;
-
-margin-bottom:20px;
-
-color:#ff7eb3;
-
-}
-
-.loader-card p{
-
-font-size:18px;
-
-opacity:.85;
-
-}
-
-@keyframes pulse{
-
-0%{
-
-transform:scale(1);
-
-}
-
-50%{
-
-transform:scale(1.03);
-
-}
-
-100%{
-
-transform:scale(1);
-
-}
-
-}
+});
