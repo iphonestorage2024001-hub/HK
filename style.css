@@ -158,7 +158,11 @@ lightbox.onclick = () => {
 function buildGallery() {
 
     galleryContainer.innerHTML = "";
+    
+    alert("Images: " + allImages.length);
 
+    alert(galleryContainer ? "Gallery Found" : "Gallery NOT Found");
+   
     allImages.forEach(file => {
 
         const img = document.createElement("img");
